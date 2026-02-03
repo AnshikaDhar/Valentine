@@ -32,45 +32,16 @@ button{
 #yes{ background:#ff4d6d; color:white; }
 #no{ background:#6c757d; color:white; position:relative; }
 
-.heart{ position:fixed; bottom:-20px; font-size:22px; animation:float 6s linear forwards; }
-@keyframes float{ to{ transform:translateY(-110vh); opacity:0;} }
-
-/* Teddy kiss bar */
-.teddy-bar{
+.heart{
  position:fixed;
- left:0; right:0; bottom:0;
- display:flex; justify-content:center; gap:14px;
- padding:10px 0; background:linear-gradient(180deg, rgba(255,240,246,0.4), rgba(255,240,246,0.85));
- pointer-events:none;
-}
-.teddy{
- font-size:36px; display:inline-block; transform-origin:center bottom; opacity:0.95;
-}
-.kiss{ animation:kissAnim 2s linear infinite; }
-.kiss.delay{ animation-delay:.4s }
-@keyframes kissAnim{
- 0%{ transform:translateY(0) scale(1); }
- 25%{ transform:translateY(-6px) scale(1.05); }
- 50%{ transform:translateY(0) scale(1); }
- 65%{ transform:translateY(-3px) rotate(-6deg) scale(1.02); }
- 100%{ transform:translateY(0) scale(1); }
+ bottom:-20px;
+ font-size:22px;
+ animation:float 6s linear forwards;
 }
 
-/* Live emoji bubble */
-.emoji-bubble{
- position:fixed; font-size:26px; pointer-events:none; will-change:transform,opacity;
- transform:translate(-50%,-50%) scale(1);
- animation:rise 1800ms ease-out forwards;
+@keyframes float{
+ to{ transform:translateY(-110vh); opacity:0;}
 }
-@keyframes rise{
-  0%{ transform:translate(-50%,-50%) translateY(0) scale(0.9); opacity:0; }
-  15%{ opacity:1; transform:translate(-50%,-50%) translateY(-6px) scale(1.06); }
-  65%{ transform:translate(-50%,-50%) translateY(-80px) rotate(-8deg) scale(1); opacity:1; }
-  100%{ transform:translate(-50%,-50%) translateY(-160px) rotate(12deg) scale(0.8); opacity:0; }
-}
-
-/* Small responsiveness */
-@media (max-width:420px){ .teddy{ font-size:28px } .emoji-bubble{ font-size:22px } }
 </style>
 </head>
 
@@ -82,16 +53,6 @@ button{
 
 <button id="yes">YES 💖 obviously</button>
 <button id="no">No 🙈 (suspicious choice)</button>
-
-<!-- Link kept for Anshika’s Cheesy Corner (optional) -->
-<p><a id="visit-link" href="https://example.com" target="_blank" rel="noopener noreferrer">Anshika’s Cheesy Corner</a></p>
-</div>
-
-<!-- Teddy kiss bar (always visible) -->
-<div class="teddy-bar" aria-hidden="true">
- <div class="teddy kiss">🧸💋</div>
- <div class="teddy kiss delay">🧸💋</div>
- <div class="teddy kiss">🧸💋</div>
 </div>
 
 <script>
@@ -100,76 +61,85 @@ var no=document.getElementById("no");
 var q=document.getElementById("q");
 var sub=document.getElementById("sub");
 
-// Emoji pools for live spawn
-var livePool = ["💖","💗","😘","🥰","💋","🧸","🌸","✨","🧁"];
+var size=18, step=0;
 
-function spawnEmoji(x, y, count){
- for(let i=0;i<count;i++){ 
-   const e = document.createElement('div');
-   e.className = 'emoji-bubble';
-   e.textContent = livePool[Math.floor(Math.random()*livePool.length)];
-   // jitter positions slightly
-   const jitterX = (Math.random()*80 - 40);
-   const jitterY = (Math.random()*40 - 10);
-   e.style.left = (x + jitterX) + 'px';
-   e.style.top = (y + jitterY) + 'px';
-   // random scale
-   e.style.fontSize = (20 + Math.floor(Math.random()*20)) + 'px';
-   document.body.appendChild(e);
-   // remove after animation
-   setTimeout(()=> e.remove(), 2000 + Math.floor(Math.random()*800));
- }
+var msgs=[
+"Are you suuuure? 🥺",
+"My heart just skipped 😭",
+"We would look cute together 😌",
+"I already told the stars ✨",
+"Chocolate + hugs included 🍫",
+"This is getting awkward 😳",
+"System rejecting NO ❌",
+"Button emotionally damaged 💔",
+"Last chance human 😤",
+"But your smile is my favorite song 🎶",
+"Promise: unlimited cheesy jokes 🧀",
+"Think of puppies and rainbows 🐶🌈",
+"I baked feelings today (and cookies) 🍪",
+"Please? I brought virtual flowers 🌸",
+"If you say NO, I’ll send more hearts 💘",
+"This is a love emergency 🚨",
+"My emoji collection approves ❤️",
+"We could be a viral cute duo 😍",
+"I whispered your name to the moon 🌙",
+"You + me = adorable math 💕",
+"Accept and receive a lifetime supply of smiles 😊",
+"I have good cuddling references 🐻",
+"Saying YES supports local romance 🌷",
+"Your laugh is my favorite playlist 🎧",
+"There's a secret handshake if you say yes 🤝",
+"I wrote your name on a paper heart ✂️",
+"Your NO made my confetti machine work harder 🎉",
+"Objectively, we would be the cutest team 🏆",
+"My heart did a tiny dance for you 💃",
+"One YES equals one big hug (guaranteed) 🤗",
+"Consider this a soft, persistent romance bug 🐞",
+"Fine print: cuddles mandatory on Tuesdays 🗓️",
+"If you say yes, I’ll stop sending pleading gifs (maybe) 😅",
+"This button is 73% persuasive and 100% sincere 💌",
+"You’re the cherry on my cupcake 🍒",
+"P.S. I make excellent playlists 🎵",
+"Also, I can share snacks — proven fact 🍫",
+"Say yes and we’ll star in our own romcom 🎬",
+"I’ll serenade you with squeaky toy sounds (if needed) 🎤"
+];
+
+function heart(){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML=["💖","💗","💘","💝","✨","🌸"][Math.floor(Math.random()*6)];
+ h.style.left=Math.random()*100+"vw";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
 }
+setInterval(heart,400);
 
-// Spawn from center if coordinates not provided
-function spawnFromCenter(count){
- const cx = window.innerWidth/2 + (Math.random()*120 - 60);
- const cy = window.innerHeight/2 + (Math.random()*40 - 20);
- spawnEmoji(cx, cy, count);
-}
-
-// Add click listeners to buttons to spawn multiple emojis and perform existing behaviors
-yes.onclick = function(e){
- // spawn a happy burst
- spawnFromCenter(10);
- // existing celebration: replace with cute message
- document.body.innerHTML = "<div style='margin-top:120px'><h1>YAYYYYYY 💖</h1><p>You just unlocked Valentine Mode 🥰</p><h2>Prepare for cute chaos 🌸</h2><p>Screenshot this — it’s official now 😌</p></div>";
+yes.onclick=function(){
+ document.body.innerHTML=
+ "<div style='margin-top:120px'>\
+ <h1>YAYYYYYY 💖</h1>\
+ <p>You just unlocked Valentine Mode 🥰</p>\
+ <h2>Prepare for cute chaos 🌸</h2>\
+ <p>Screenshot this — it’s official now 😌</p>\
+ </div>";
 };
 
-no.onclick = function(e){
- // spawn a smaller, persuasive burst from the button position
- const rect = no.getBoundingClientRect();
- spawnEmoji(rect.left + rect.width/2, rect.top + rect.height/2, 6);
- // playful message update
- const msgs = [
-  "Fine. I'll just text you every cute photo until you cave 😅",
-  "You're saving a spot in your heart — I can tell 🥰",
-  "I see your maybe. I raise you one playlist and a cheesy pun 🎶🧀",
-  "This is an official request: be adorable and reconsider 😉",
-  "I have receipts of your cutest moments — consider them leverage 📸",
-  "One yes equals lifetime snack-sharing privileges 🍪"
- ];
- q.innerText = msgs[Math.floor(Math.random()*msgs.length)];
- sub.innerText = "Your NO is being reviewed by the romance department 💌";
- // make the yes button slightly bounce
- yes.style.transform = 'scale(1.08)';
- setTimeout(()=> yes.style.transform = '', 220);
+no.onclick=function(){
+ q.innerText=msgs[step%msgs.length];
+ sub.innerText="Your NO is being reviewed by the romance department 💌";
+ step++;
+
+ // subtle playful effects for the YES button
+ size+=4;
+ yes.style.fontSize=size+"px";
+ yes.innerText="YES 💖 YES 💖";
+
+ // jitter the NO button around playfully
+ no.style.transform = "translate(" + (Math.random()*140-70) + "px," + (Math.random()*80-40) + "px) rotate(" + (Math.random()*20-10) + "deg)";
+ // add a brief wobble
+ no.style.transition = "transform 220ms ease";
 };
-
-// Also spawn small floating emojis continuously for ambient 'live' feel
-setInterval(()=>{
- const side = Math.random();
- const x = side < 0.5 ? Math.random()*120 : window.innerWidth - Math.random()*120;
- const y = window.innerHeight - 40;
- spawnEmoji(x, y, 1);
-}, 900);
-
-// Also allow clicks anywhere to spawn a cute emoji at pointer location
-document.addEventListener('click', function(ev){
- // ignore clicks on the buttons themselves (they already spawn)
- if(ev.target === yes || ev.target === no) return;
- spawnEmoji(ev.clientX, ev.clientY, 3);
-});
 </script>
 
 </body>
