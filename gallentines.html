@@ -91,14 +91,14 @@
 
 <div class="card" role="main" aria-labelledby="title">
   <h1 id="title">Galentine's Giggles — Anshika</h1>
-  <p class="lead">Host a tiny, cozy celebration for your besties. Would you join my Galentine's party? 💕</p>
+  <p class="lead">Would you be my Galentine? If you’re thinking of saying no, remember: I have a collection of the most awkward photos of us just waiting for a dramatic reveal. 🎭 Choose wisely, or I’ll unleash the ultimate threat of karaoke duets! 😜</p>
 
   <div class="buttons" aria-hidden="false">
-    <button id="join" class="yes">Count me in 💃</button>
+    <button id="join" class="yes">Be my Galentine 💖</button>
     <button id="later" class="maybe">Maybe later 🤷‍♀️</button>
   </div>
 
-  <div class="msg" id="message">P.S. There will be cheesy jokes, playlists, and virtual cupcakes 🍰</div>
+  <div class="msg" id="message">P.S. There will be cheesy jokes, playlists, and virtual cupcakes — and, fine, also feminism and fierce girl-power vibes ✨👯‍♀️</div>
 </div>
 
 <script>
@@ -106,38 +106,18 @@
   const laterBtn = document.getElementById('later');
   const msgEl = document.getElementById('message');
 
-  // Lots of cute / encouraging messages for the "Maybe later" button
+  // Sassy / playful messages for the "Maybe later" button
   const maybeMsgs = [
-    "A tiny promise: snuggles and snacks are included 🧁",
-    "No pressure — just good vibes and bad puns 😄",
-    "Bring your best playlist; I'll bring the cheesy jokes 🎧🧀",
-    "We'll make a memory and maybe a meme or two 📸",
-    "Pajamas encouraged. Formality discouraged 🛋️",
-    "I baked optimism and a dozen cookies (virtually) 🍪",
-    "We'll trade compliments like they're stickers ✨",
-    "There will be a group hug — socially sweet 🤗",
-    "Side quest: make someone laugh — high reward 😍",
-    "Confetti is non-negotiable — sparkle included 🎉",
-    "Think of it as a cozy upgrade to your day ☕🫶",
-    "I promise the playlists are 100% vibe-approved 🎵",
-    "Wear a goofy hat. It helps with decisions 🎩",
-    "If you come, I’ll dedicate a cheesy song to you 🎶",
-    "No RSVP required — just bring your bright self 🌼",
-    "We’ll rate snacks on a scale from meh to magical 🍫",
-    "Your smile gets a standing ovation here 👏",
-    "If you say yes, I'll reveal my signature dance move 💃",
-    "We can invent a secret handshake (virtual-friendly) 🤝",
-    "Guaranteed giggles or I’ll send extra cupcake emojis 🧁",
-    "You + us = instant cozy content for the heart ❤️",
-    "We’ll build a tiny kingdom of inside jokes 👑",
-    "Consider this an official cheer squad sign-up 📣",
-    "We’ll trade recipe secrets and terrible life hacks 🍳",
-    "Accept and receive unlimited warm fuzzy feelings 🥰",
-    "If you pause, we’ll play your favorite song next 🎶",
-    "Bring your best 'remember when' story — we love nostalgia 🕰️",
-    "Your maybe is adorable — but a yes is legendary ✨",
-    "Pop in for five minutes; stay for the laughs ⏱️",
-    "Flex your snack-sharing skills and win hearts 🥨"
+    "Fine. I'll just text you every cute photo until you cave 😅",
+    "You're saving a spot in your heart — I can tell 🥰",
+    "I see your maybe. I raise you one playlist and a cheesy pun 🎶🧀",
+    "This is an official request: be adorable and reconsider 😉",
+    "I have receipts of your cutest moments — consider them leverage 📸",
+    "One yes equals lifetime snack-sharing privileges 🍪",
+    "Come for the snacks, stay for the girl-power speeches ✨",
+    "If you say no I’ll start a very dramatic single-person parade 🥁",
+    "You know you want to — imagine the inside jokes we’ll hoard 🤫",
+    "If you resist, I’ll force you into a group selfie — and it will be legendary 🤳"
   ];
 
   // Make floating emojis for ambient fun
@@ -155,17 +135,12 @@
 
   // Celebration when joining
   joinBtn.addEventListener('click', () => {
-    // confetti burst
-    confetti({
-      particleCount: 120,
-      spread: 70,
-      origin: { y: 0.55 }
-    });
-    // small follow-up celebration
-    setTimeout(() => confetti({ particleCount: 80, spread: 100, origin: { x: 0.2, y: 0.3 } }), 250);
-    setTimeout(() => confetti({ particleCount: 80, spread: 100, origin: { x: 0.8, y: 0.3 } }), 350);
+    if (window.confetti) {
+      confetti({ particleCount: 120, spread: 70, origin: { y: 0.55 } });
+      setTimeout(() => confetti({ particleCount: 80, spread: 100, origin: { x: 0.2, y: 0.3 } }), 250);
+      setTimeout(() => confetti({ particleCount: 80, spread: 100, origin: { x: 0.8, y: 0.3 } }), 350);
+    }
 
-    // show a cute join screen
     document.body.innerHTML = `
       <div style="display:flex;height:100vh;align-items:center;justify-content:center;">
         <div style="text-align:center;padding:28px;border-radius:14px;background:rgba(255,255,255,0.9);box-shadow:0 12px 40px rgba(0,0,0,0.08);max-width:720px;">
@@ -177,27 +152,22 @@
     `;
   });
 
-  // "Maybe later" cycles through many messages; uses randomization to keep it fun
+  // "Maybe later" cycles through many sassy messages
   laterBtn.addEventListener('click', () => {
-    // pick a random message but avoid immediate repeats
     let idx = Math.floor(Math.random() * maybeMsgs.length);
     msgEl.textContent = maybeMsgs[idx];
 
-    // playful button wiggle / grow to encourage a yes
     joinBtn.style.transform = `scale(${1 + Math.random()*0.12})`;
     joinBtn.style.transition = 'transform 220ms ease';
 
-    // tiny bounce for later button
     laterBtn.style.transform = `translate(${(Math.random()*24-12)}px, ${(Math.random()*12-6)}px) rotate(${(Math.random()*10-5)}deg)`;
     laterBtn.style.transition = 'transform 220ms ease';
 
-    // occasionally spawn a little extra confetti to sweeten the nudge (1 in 6)
-    if (Math.random() < 1/6) {
+    if (Math.random() < 1/6 && window.confetti) {
       confetti({ particleCount: 30, spread: 40, origin: { y: 0.6 } });
     }
   });
 
-  // reset join button transform after small delay (keeps UI tidy)
   document.addEventListener('transitionend', (e) => {
     if(e.propertyName === 'transform'){
       joinBtn.style.transform = '';
