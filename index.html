@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Be My Valentine 💘</title>
+
+<style>
+body{
+ margin:0;
+ font-family: Arial;
+ text-align:center;
+ background: linear-gradient(135deg,#ffd6e7,#fff0f6);
+ overflow:hidden;
+}
+
+#box{ margin-top:70px; padding:20px; }
+
+h1{ color:#d63384; font-size:28px; }
+p{ color:#6a040f; font-size:18px; }
+
+button{
+ padding:14px 22px;
+ font-size:18px;
+ border:none;
+ border-radius:14px;
+ margin:12px;
+ cursor:pointer;
+ box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
+
+#yes{ background:#ff4d6d; color:white; }
+#no{ background:#6c757d; color:white; position:relative; }
+
+.heart{
+ position:fixed;
+ bottom:-20px;
+ font-size:22px;
+ animation:float 6s linear forwards;
+}
+
+@keyframes float{
+ to{ transform:translateY(-110vh); opacity:0;}
+}
+#visit-link{
+ display:inline-block;
+ margin-top:14px;
+ padding:10px 18px;
+ background:#1d4ed8;
+ color:#fff;
+ border-radius:12px;
+ text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="box">
+<h1 id="q">Will you be my Valentine? 💌</h1>
+<p id="sub">This message was sent with excessive cuteness 🥺</p>
+
+<button id="yes">YES 💖 obviously</button>
+<button id="no">No 🙈 (suspicious choice)</button>
+
+<!-- Click this link to open a site in a new tab. Change the href to the site you want to open. -->
+<p><a id="visit-link" href="https://example.com" target="_blank" rel="noopener noreferrer">Open my site</a></p>
+</div>
+
+<script>
+var yes=document.getElementById("yes");
+var no=document.getElementById("no");
+var q=document.getElementById("q");
+var sub=document.getElementById("sub");
+
+var size=18, step=0;
+
+var msgs=[
+"Are you suuuure? 🥺",
+"My heart just skipped 😭",
+"We would look cute together 😌",
+"I already told the stars ✨",
+"Chocolate + hugs included 🍫",
+"This is getting awkward 😳",
+"System rejecting NO ❌",
+"Button emotionally damaged 💔",
+"Last chance human 😤"
+];
+
+function heart(){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML=["💖","💗","💘","💝"][Math.floor(Math.random()*4)];
+ h.style.left=Math.random()*100+"vw";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+}
+setInterval(heart,500);
+
+yes.onclick=function(){
+ document.body.innerHTML=
+ "<div style='margin-top:120px'>\
+ <h1>YAYYYYYY 💖</h1>\
+ <p>You just unlocked Valentine Mode 🥰</p>\
+ <h2>Prepare for cute chaos 🌸</h2>\
+ <p>Screenshot this — it’s official now 😌</p>\
+ </div>";
+};
+
+no.onclick=function(){
+ q.innerText=msgs[step%msgs.length];
+ sub.innerText="Your NO is being reviewed by the romance department 💌";
+ step++;
+
+ size+=6;
+ yes.style.fontSize=size+"px";
+ yes.innerText="YES 💖 YES 💖 YES 💖";
+
+ no.style.left=(Math.random()*120-60)+"px";
+ no.style.top=(Math.random()*60-30)+"px";
+};
+</script>
+
+</body>
+</html>
