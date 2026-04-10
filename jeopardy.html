@@ -7,95 +7,72 @@
 <style>
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial;
+  background: #111;
   color: white;
   text-align: center;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0f0f0f;
-  transition: 0.6s ease;
 }
 
-/* SCREENS */
-.screen { display: none; width: 100%; }
+.screen { display: none; padding: 20px; }
 .active { display: block; }
 
-/* TITLE */
-h1 {
-  font-size: 32px;
-  margin-bottom: 30px;
-}
-
-/* BUTTONS */
 button {
-  display: block;
-  margin: 15px auto;
-  padding: 16px 28px;
-  font-size: 18px;
+  margin: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 10px;
   border: none;
-  border-radius: 14px;
   cursor: pointer;
-  background: linear-gradient(135deg, #ff4e50, #f9d423);
-  color: black;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
-  transition: 0.3s;
 }
 
-button:hover {
-  transform: scale(1.05);
+.main-btn {
+  display: block;
+  width: 80%;
+  margin: 15px auto;
 }
 
-/* BACK BUTTON */
 .back {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background: rgba(255,255,255,0.1);
-  color: white;
+  top: 10px;
+  left: 10px;
 }
 
-/* QUESTION */
 #question {
-  font-size: 30px;
-  padding: 20px;
-  max-width: 85%;
-  line-height: 1.4;
+  font-size: 26px;
+  margin-top: 60px;
 }
 
-.tap {
-  position: absolute;
-  bottom: 20px;
-  opacity: 0.5;
+#answer {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #00ffcc;
+  display: none;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- MAIN MENU -->
 <div id="menu" class="screen active">
   <h1>Choose Your Chaos 🎮</h1>
-  <button onclick="openGame('general')">🎯 Brain Bender</button>
-  <button onclick="openGame('friends')">🔥 Spill The Tea</button>
-  <button onclick="openGame('movies')">🎬 Popcorn Madness</button>
+  <button class="main-btn" onclick="openGame('friends')">🔥 Spill The Tea</button>
+  <button class="main-btn" onclick="openGame('general')">🎯 Brain Bender</button>
+  <button class="main-btn" onclick="openGame('movies')">🎬 Popcorn Madness</button>
 </div>
 
-<!-- CATEGORY -->
 <div id="categories" class="screen">
   <button class="back" onclick="goMenu()">⬅</button>
-  <h1>Pick Your Category</h1>
+  <h2>Select Category</h2>
   <div id="categoryButtons"></div>
 </div>
 
-<!-- GAME -->
-<div id="game" class="screen" onclick="nextQuestion()">
-  <button class="back" onclick="goCategories(event)">⬅</button>
-  <div id="question">Tap to start</div>
-  <div class="tap">tap anywhere</div>
+<div id="game" class="screen">
+  <button class="back" onclick="goMenu()">🏠 Menu</button>
+  <div id="question"></div>
+  <div id="answer"></div>
+
+  <button onclick="showAnswer()">Show Answer</button>
+  <button onclick="nextQuestion()">Next</button>
 </div>
 
 <script>
@@ -103,85 +80,93 @@ button:hover {
 let currentQuestions = [];
 let index = 0;
 
-// DATA
-
 const data = {
 
-general: {
-  "🌍 World": [
-    "Capital of Australia?",
-    "Largest country in the world?",
-    "Which desert is the largest?"
-  ],
-  "🧪 Science": [
-    "What is the speed of light?",
-    "Which gas do plants absorb?",
-    "H2O is?"
-  ],
-  "🏛️ Politics": [
-    "Who is PM of India?",
-    "What is Lok Sabha?",
-    "What is democracy?"
-  ],
-  "🧠 Random": [
-    "How many bones in human body?",
-    "Fastest animal?",
-    "Deepest ocean?"
-  ]
+friends: {
+
+"😈 Most Likely To": [
+{q:"Who's most likely to have a secret situationship?",a:"Group decides"},
+{q:"Who's most likely to drunk text their ex?",a:"Group decides"},
+{q:"Who's most likely to fall in love fast?",a:"Group decides"},
+{q:"Who's most likely to have cried over someone here?",a:"Group decides"},
+{q:"Who's most likely to ghost after a great date?",a:"Group decides"},
+{q:"Who's most likely to marry someone family hates?",a:"Group decides"}
+],
+
+"💬 Truths": [
+{q:"Most embarrassing thing you've done sober?",a:"Personal"},
+{q:"Biggest insecurity?",a:"Personal"},
+{q:"Last crush?",a:"Personal"},
+{q:"Ever lied to someone in this room?",a:"Personal"},
+{q:"Real reason last relationship ended?",a:"Personal"}
+],
+
+"🎯 Dares": [
+{q:"Show your camera roll",a:"Do it"},
+{q:"Text your ex",a:"Do it"},
+{q:"Read last 5 Google searches",a:"Do it"},
+{q:"Let group send a message from your phone",a:"Do it"}
+],
+
+"👀 Never Have I Ever": [
+{q:"Stalked an ex for 20+ minutes",a:"Hands down"},
+{q:"Had feelings for a friend",a:"Hands down"},
+{q:"Lied in a relationship",a:"Hands down"},
+{q:"Sent risky text",a:"Hands down"}
+],
+
+"🔥 Hot Takes": [
+{q:"Love or money?",a:"Debate"},
+{q:"Cheating forgivable?",a:"Debate"},
+{q:"Casual dating toxic?",a:"Debate"},
+{q:"Can you love two people?",a:"Debate"}
+],
+
+"⚡ Rapid Fire": [
+{q:"Rate yourself /10",a:"Say it"},
+{q:"Last lie you told?",a:"Say it"},
+{q:"Biggest flaw in relationships?",a:"Say it"},
+{q:"Who do you like right now?",a:"Say it"}
+]
+
 },
 
-friends: {
-  "😈 Most Likely To": [
-    "Who’s most likely to drunk text their ex tonight?",
-    "Who’s most likely to fall in love in 3 days?",
-    "Who’s most likely to have a secret situationship?",
-    "Who’s most likely to ghost after a perfect date?"
-  ],
-  "🔥 Hot Takes": [
-    "Love or money?",
-    "Cheating once = always a cheater?",
-    "Is casual dating toxic?",
-    "Can you love two people at once?"
-  ],
-  "👀 Secrets": [
-    "Ever stalked someone for hours?",
-    "Ever lied to your best friend?",
-    "Ever had feelings for a friend?",
-    "Ever checked someone’s phone secretly?"
-  ],
-  "💬 Truth Bombs": [
-    "Who here is the biggest red flag?",
-    "Who has the worst taste in partners?",
-    "Who would you date in this room?",
-    "Who is secretly toxic?"
-  ]
+general: {
+
+"🌍 Easy World": [
+{q:"Capital of India?",a:"New Delhi"},
+{q:"Largest ocean?",a:"Pacific"},
+{q:"Which country is Taj Mahal in?",a:"India"}
+],
+
+"🧪 Easy Science": [
+{q:"H2O is?",a:"Water"},
+{q:"Sun is a?",a:"Star"},
+{q:"Gas we breathe?",a:"Oxygen"}
+]
+
 },
 
 movies: {
-  "🎥 Bollywood": [
-    "Who played Kabir Singh?",
-    "Finish: 'Bade bade deshon mein…'",
-    "SRK’s first movie?",
-    "Who played Geet in Jab We Met?"
-  ],
-  "🍿 Hollywood": [
-    "Who is Iron Man?",
-    "Which movie has Joker?",
-    "Avatar director?",
-    "Titanic lead actor?"
-  ],
-  "📺 TV Shows": [
-    "Which show: Winter is Coming?",
-    "Who is Ross?",
-    "Money Heist professor name?",
-    "Breaking Bad main character?"
-  ],
-  "🎶 Iconic": [
-    "Guess song: 'Tum hi ho…'",
-    "Guess movie from dialogue",
-    "Most iconic Bollywood song?",
-    "Best romcom ever?"
-  ]
+
+"🎥 Bollywood": [
+{q:"Who played Kabir Singh?",a:"Shahid Kapoor"},
+{q:"Geet is from?",a:"Jab We Met"},
+{q:"SRK full name?",a:"Shah Rukh Khan"}
+],
+
+"🍿 Hollywood": [
+{q:"Iron Man real name?",a:"Tony Stark"},
+{q:"Harry Potter's school?",a:"Hogwarts"},
+{q:"Titanic hero?",a:"Jack"}
+],
+
+"📺 TV Shows": [
+{q:"Winter is Coming?",a:"Game of Thrones"},
+{q:"Friends coffee shop?",a:"Central Perk"},
+{q:"Money Heist mastermind?",a:"Professor"}
+]
+
 }
 
 };
@@ -195,52 +180,49 @@ function openGame(type) {
   let container = document.getElementById("categoryButtons");
   container.innerHTML = "";
 
-  let categories = data[type];
-
-  for (let key in categories) {
+  for (let key in data[type]) {
     let btn = document.createElement("button");
     btn.innerText = key;
-    btn.onclick = () => startGame(categories[key]);
+    btn.onclick = () => startGame(data[type][key]);
     container.appendChild(btn);
   }
 }
 
 function startGame(questions) {
-  currentQuestions = shuffle(questions);
+  currentQuestions = questions;
   index = 0;
   switchScreen("game");
-  nextQuestion();
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (index >= currentQuestions.length) {
+    document.getElementById("question").innerText = "🎉 Round Complete!";
+    document.getElementById("answer").style.display = "none";
+    return;
+  }
+
+  document.getElementById("question").innerText = currentQuestions[index].q;
+  document.getElementById("answer").innerText = currentQuestions[index].a;
+  document.getElementById("answer").style.display = "none";
+}
+
+function showAnswer() {
+  document.getElementById("answer").style.display = "block";
 }
 
 function nextQuestion() {
-  if (index >= currentQuestions.length) index = 0;
-
-  document.body.style.background = randomGradient();
-  document.getElementById("question").innerText = currentQuestions[index];
-
   index++;
+  loadQuestion();
 }
 
-function goMenu() { switchScreen("menu"); }
-function goCategories(e) {
-  e.stopPropagation();
-  switchScreen("categories");
+function goMenu() {
+  switchScreen("menu");
 }
 
 function switchScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-}
-
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
-function randomGradient() {
-  const colors = ["#ff4e50", "#fc913a", "#845ec2", "#00c9a7", "#ffc75f"];
-  let c1 = colors[Math.floor(Math.random()*colors.length)];
-  let c2 = colors[Math.floor(Math.random()*colors.length)];
-  return `linear-gradient(135deg, ${c1}, ${c2})`;
 }
 
 </script>
