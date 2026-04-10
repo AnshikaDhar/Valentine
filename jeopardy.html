@@ -42,7 +42,7 @@ button {
 }
 
 #question {
-  font-size: 32px;
+  font-size: 30px;
   text-align: center;
   max-width: 85%;
 }
@@ -58,7 +58,6 @@ button {
 
 <body>
 
-<!-- MENU -->
 <div id="menu" class="screen active">
   <h1>Choose Your Chaos 🎮</h1>
   <button class="main-btn" onclick="openGame('friends')">🔥 Spill The Tea</button>
@@ -66,14 +65,12 @@ button {
   <button class="main-btn" onclick="openGame('movies')">🎬 Popcorn Madness</button>
 </div>
 
-<!-- CATEGORY -->
 <div id="categories" class="screen">
   <button class="back" onclick="goMenu()">⬅</button>
   <h2>Select Category</h2>
   <div id="categoryButtons"></div>
 </div>
 
-<!-- GAME -->
 <div id="game" class="screen">
   <button class="back" onclick="goMenu()">🏠</button>
 
@@ -94,29 +91,57 @@ const data = {
 friends: {
 
 "😈 Most Likely To": [
-/* PASTE ALL YOUR QUESTIONS HERE (NO ANSWERS) */
-"Who's most likely to ...",
-"Who's most likely to ..."
+"Who's most likely to have a secret situationship?",
+"Who's most likely to drunk text their ex?",
+"Who's most likely to fall in love in 3 days?",
+"Who's most likely to ghost after a perfect date?",
+"Who's most likely to cry over someone here?",
+"Who's most likely to marry someone family hates?",
+"Who's most likely to send a risky text tonight?",
+"Who's most likely to be secretly in love right now?"
 ],
 
 "💬 Truths": [
-/* PASTE ALL */
+"Most embarrassing thing you've done sober?",
+"Biggest insecurity?",
+"Last crush?",
+"Ever lied to your best friend?",
+"Real reason your last relationship ended?",
+"Ever stalked someone for hours?",
+"Ever liked someone in this room?"
 ],
 
 "🎯 Dares": [
-/* PASTE ALL */
+"Show your camera roll",
+"Text your ex 'I miss you'",
+"Read last 5 Google searches",
+"Let group send a message from your phone",
+"Call a random contact and say hi",
+"Post something weird on your story"
 ],
 
 "👀 Never Have I Ever": [
-/* PASTE ALL */
+"Stalked an ex for 20+ minutes",
+"Had feelings for a friend",
+"Lied in a relationship",
+"Sent a risky text",
+"Checked someone’s phone secretly"
 ],
 
 "🔥 Hot Takes": [
-/* PASTE ALL */
+"Love or money?",
+"Cheating forgivable?",
+"Casual dating toxic?",
+"Can you love two people at once?",
+"Long distance relationships work?"
 ],
 
 "⚡ Rapid Fire": [
-/* PASTE ALL */
+"Rate yourself /10",
+"Biggest red flag in you?",
+"Who do you like right now?",
+"Last lie you told?",
+"Your type?"
 ]
 
 },
@@ -124,20 +149,30 @@ friends: {
 general: {
 
 "🌍 Geography": [
-/* FORMAT: {q:"question", a:"answer"} */
-{q:"Capital of France?",a:"Paris"}
+{q:"Capital of Australia?",a:"Canberra"},
+{q:"Largest country in the world?",a:"Russia"},
+{q:"Which continent is Egypt in?",a:"Africa"},
+{q:"Which country has the Eiffel Tower?",a:"France"}
 ],
 
 "🧪 Science": [
-/* PASTE ALL */
+{q:"H2O is?",a:"Water"},
+{q:"Red planet?",a:"Mars"},
+{q:"Gas we breathe?",a:"Oxygen"},
+{q:"Sun is a?",a:"Star"},
+{q:"Human body bones?",a:"206"}
 ],
 
-"🏛️ Politics": [
-/* PASTE ALL */
+"🏛️ History & Politics": [
+{q:"Who is PM of India?",a:"Narendra Modi"},
+{q:"Father of nation India?",a:"Mahatma Gandhi"},
+{q:"Indian parliament lower house?",a:"Lok Sabha"}
 ],
 
 "🧠 General Knowledge": [
-/* PASTE ALL */
+{q:"Fastest land animal?",a:"Cheetah"},
+{q:"Currency of Japan?",a:"Yen"},
+{q:"How many continents?",a:"7"}
 ]
 
 },
@@ -145,27 +180,43 @@ general: {
 movies: {
 
 "🎥 Bollywood": [
-/* PASTE ALL */
+{q:"Who played Kabir Singh?",a:"Shahid Kapoor"},
+{q:"Geet is from?",a:"Jab We Met"},
+{q:"SRK full name?",a:"Shah Rukh Khan"},
+{q:"3 Idiots main actor?",a:"Aamir Khan"},
+{q:"DDLJ heroine?",a:"Kajol"}
 ],
 
 "🍿 Hollywood": [
-/* PASTE ALL */
+{q:"Iron Man real name?",a:"Tony Stark"},
+{q:"Titanic hero?",a:"Jack Dawson"},
+{q:"Avatar director?",a:"James Cameron"},
+{q:"Batman city?",a:"Gotham"},
+{q:"Frozen main character?",a:"Elsa"}
 ],
 
 "📺 Friends": [
-/* PASTE ALL */
+{q:"Ross job?",a:"Paleontologist"},
+{q:"Joey famous line?",a:"How you doin?"},
+{q:"Coffee shop?",a:"Central Perk"}
 ],
 
 "🐉 Game of Thrones": [
-/* PASTE ALL */
+{q:"Winter is Coming belongs to?",a:"Stark"},
+{q:"Dragon queen?",a:"Daenerys"},
+{q:"Wall protects from?",a:"White Walkers"}
 ],
 
 "💰 Money Heist": [
-/* PASTE ALL */
+{q:"Professor real name?",a:"Sergio"},
+{q:"Tokyo role?",a:"Narrator"},
+{q:"City names represent?",a:"Code names"}
 ],
 
 "🧪 Breaking Bad": [
-/* PASTE ALL */
+{q:"Walter White alias?",a:"Heisenberg"},
+{q:"Jesse catchphrase?",a:"Yeah bitch"},
+{q:"Blue meth color?",a:"Blue"}
 ]
 
 }
@@ -173,7 +224,7 @@ movies: {
 };
 
 
-// FUNCTIONS
+// LOGIC
 
 function openGame(type) {
   switchScreen("categories");
