@@ -10,15 +10,20 @@ body {
   font-family: Arial;
   background: #111;
   color: white;
-  text-align: center;
 }
 
-.screen { display: none; padding: 20px; }
-.active { display: block; }
+.screen {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.active { display: flex; }
 
 button {
   margin: 10px;
-  padding: 12px 20px;
+  padding: 14px 24px;
   font-size: 16px;
   border-radius: 10px;
   border: none;
@@ -26,20 +31,20 @@ button {
 }
 
 .main-btn {
-  display: block;
   width: 80%;
-  margin: 15px auto;
+  font-size: 18px;
 }
 
 .back {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 15px;
+  left: 15px;
 }
 
 #question {
-  font-size: 26px;
-  margin-top: 60px;
+  font-size: 30px;
+  text-align: center;
+  max-width: 85%;
 }
 
 #answer {
@@ -53,6 +58,7 @@ button {
 
 <body>
 
+<!-- MENU -->
 <div id="menu" class="screen active">
   <h1>Choose Your Chaos 🎮</h1>
   <button class="main-btn" onclick="openGame('friends')">🔥 Spill The Tea</button>
@@ -60,18 +66,21 @@ button {
   <button class="main-btn" onclick="openGame('movies')">🎬 Popcorn Madness</button>
 </div>
 
+<!-- CATEGORY -->
 <div id="categories" class="screen">
   <button class="back" onclick="goMenu()">⬅</button>
   <h2>Select Category</h2>
   <div id="categoryButtons"></div>
 </div>
 
+<!-- GAME -->
 <div id="game" class="screen">
-  <button class="back" onclick="goMenu()">🏠 Menu</button>
+  <button class="back" onclick="goMenu()">🏠</button>
+
   <div id="question"></div>
   <div id="answer"></div>
 
-  <button onclick="showAnswer()">Show Answer</button>
+  <button id="answerBtn" onclick="showAnswer()">Show Answer</button>
   <button onclick="nextQuestion()">Next</button>
 </div>
 
@@ -83,88 +92,71 @@ let index = 0;
 const data = {
 
 friends: {
-
 "😈 Most Likely To": [
-{q:"Who's most likely to have a secret situationship?",a:"Group decides"},
-{q:"Who's most likely to drunk text their ex?",a:"Group decides"},
-{q:"Who's most likely to fall in love fast?",a:"Group decides"},
-{q:"Who's most likely to have cried over someone here?",a:"Group decides"},
-{q:"Who's most likely to ghost after a great date?",a:"Group decides"},
-{q:"Who's most likely to marry someone family hates?",a:"Group decides"}
+"Who's most likely to have a secret situationship?",
+"Who's most likely to drunk text their ex?",
+"Who's most likely to fall in love fast?",
+"Who's most likely to ghost after a great date?"
 ],
-
-"💬 Truths": [
-{q:"Most embarrassing thing you've done sober?",a:"Personal"},
-{q:"Biggest insecurity?",a:"Personal"},
-{q:"Last crush?",a:"Personal"},
-{q:"Ever lied to someone in this room?",a:"Personal"},
-{q:"Real reason last relationship ended?",a:"Personal"}
-],
-
-"🎯 Dares": [
-{q:"Show your camera roll",a:"Do it"},
-{q:"Text your ex",a:"Do it"},
-{q:"Read last 5 Google searches",a:"Do it"},
-{q:"Let group send a message from your phone",a:"Do it"}
-],
-
-"👀 Never Have I Ever": [
-{q:"Stalked an ex for 20+ minutes",a:"Hands down"},
-{q:"Had feelings for a friend",a:"Hands down"},
-{q:"Lied in a relationship",a:"Hands down"},
-{q:"Sent risky text",a:"Hands down"}
-],
-
 "🔥 Hot Takes": [
-{q:"Love or money?",a:"Debate"},
-{q:"Cheating forgivable?",a:"Debate"},
-{q:"Casual dating toxic?",a:"Debate"},
-{q:"Can you love two people?",a:"Debate"}
-],
-
-"⚡ Rapid Fire": [
-{q:"Rate yourself /10",a:"Say it"},
-{q:"Last lie you told?",a:"Say it"},
-{q:"Biggest flaw in relationships?",a:"Say it"},
-{q:"Who do you like right now?",a:"Say it"}
+"Love or money?",
+"Cheating forgivable?",
+"Casual dating toxic?"
 ]
-
 },
 
 general: {
-
-"🌍 Easy World": [
-{q:"Capital of India?",a:"New Delhi"},
-{q:"Largest ocean?",a:"Pacific"},
-{q:"Which country is Taj Mahal in?",a:"India"}
-],
-
-"🧪 Easy Science": [
+"🧪 Science": [
 {q:"H2O is?",a:"Water"},
 {q:"Sun is a?",a:"Star"},
 {q:"Gas we breathe?",a:"Oxygen"}
+],
+"🌍 Geography": [
+{q:"Capital of India?",a:"New Delhi"},
+{q:"Largest ocean?",a:"Pacific"}
 ]
-
 },
 
 movies: {
 
 "🎥 Bollywood": [
-{q:"Who played Kabir Singh?",a:"Shahid Kapoor"},
+{q:"Kabir Singh actor?",a:"Shahid Kapoor"},
 {q:"Geet is from?",a:"Jab We Met"},
-{q:"SRK full name?",a:"Shah Rukh Khan"}
+{q:"SRK full name?",a:"Shah Rukh Khan"},
+{q:"3 Idiots main actor?",a:"Aamir Khan"},
+{q:"DDLJ heroine?",a:"Kajol"}
 ],
 
 "🍿 Hollywood": [
 {q:"Iron Man real name?",a:"Tony Stark"},
-{q:"Harry Potter's school?",a:"Hogwarts"},
-{q:"Titanic hero?",a:"Jack"}
+{q:"Titanic hero?",a:"Jack"},
+{q:"Avatar director?",a:"James Cameron"},
+{q:"Batman city?",a:"Gotham"},
+{q:"Frozen main character?",a:"Elsa"}
 ],
 
-"📺 TV Shows": [
-{q:"Winter is Coming?",a:"Game of Thrones"},
-{q:"Friends coffee shop?",a:"Central Perk"},
-{q:"Money Heist mastermind?",a:"Professor"}
+"📺 Friends": [
+{q:"Ross's job?",a:"Paleontologist"},
+{q:"Joey famous line?",a:"How you doin?"},
+{q:"Coffee shop name?",a:"Central Perk"}
+],
+
+"🐉 Game of Thrones": [
+{q:"Winter is Coming belongs to?",a:"Stark"},
+{q:"Dragon queen?",a:"Daenerys"},
+{q:"Wall protects from?",a:"White Walkers"}
+],
+
+"💰 Money Heist": [
+{q:"Professor real name?",a:"Sergio"},
+{q:"Tokyo role?",a:"Narrator"},
+{q:"City names represent?",a:"Code names"}
+],
+
+"🧪 Breaking Bad": [
+{q:"Walter White alias?",a:"Heisenberg"},
+{q:"Jesse catchphrase?",a:"Yeah bitch"},
+{q:"Blue meth color?",a:"Blue"}
 ]
 
 }
@@ -176,21 +168,23 @@ movies: {
 
 function openGame(type) {
   switchScreen("categories");
-
   let container = document.getElementById("categoryButtons");
   container.innerHTML = "";
 
   for (let key in data[type]) {
     let btn = document.createElement("button");
     btn.innerText = key;
-    btn.onclick = () => startGame(data[type][key]);
+    btn.onclick = () => startGame(data[type][key], type === "friends");
     container.appendChild(btn);
   }
 }
 
-function startGame(questions) {
+function startGame(questions, isFriends) {
   currentQuestions = questions;
   index = 0;
+
+  document.getElementById("answerBtn").style.display = isFriends ? "none" : "inline-block";
+
   switchScreen("game");
   loadQuestion();
 }
@@ -202,9 +196,16 @@ function loadQuestion() {
     return;
   }
 
-  document.getElementById("question").innerText = currentQuestions[index].q;
-  document.getElementById("answer").innerText = currentQuestions[index].a;
-  document.getElementById("answer").style.display = "none";
+  let q = currentQuestions[index];
+
+  if (typeof q === "string") {
+    document.getElementById("question").innerText = q;
+    document.getElementById("answer").style.display = "none";
+  } else {
+    document.getElementById("question").innerText = q.q;
+    document.getElementById("answer").innerText = q.a;
+    document.getElementById("answer").style.display = "none";
+  }
 }
 
 function showAnswer() {
